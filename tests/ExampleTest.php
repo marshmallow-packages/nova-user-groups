@@ -1,6 +1,6 @@
 <?php
 
-namespace VendorName\Skeleton\Tests;
+namespace Marshmallow\NovaUserGroups\Tests;
 
 class ExampleTest extends TestCase
 {

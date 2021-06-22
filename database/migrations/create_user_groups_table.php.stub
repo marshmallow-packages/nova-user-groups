@@ -1,0 +1,65 @@
+<?php
+
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
+
+return new class extends Migration
+{
+    public function up()
+    {
+        Schema::create('user_groups', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->boolean('active')->default(true);
+            $table->timestamps();
+            $table->softDeletes();
+        });
+
+        Schema::create('user_user_group', function (Blueprint $table) {
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('user_group_id');
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('CASCADE');
+            $table->foreign('user_group_id')->references('id')->on('user_groups')->onDelete('CASCADE');
+        });
+
+        Schema::create('nova_resources', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->boolean('active')->default(true);
+            $table->timestamps();
+            $table->softDeletes();
+        });
+
+        Schema::create('nova_resource_actions', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('nova_resource_id');
+            $table->string('name');
+            $table->text('description');
+            $table->boolean('active')->default(true);
+            $table->timestamps();
+            $table->softDeletes();
+
+            $table->foreign('nova_resource_id')->references('id')->on('nova_resources')->onDelete('CASCADE');
+        });
+
+        Schema::create('nova_resource_user_group', function (Blueprint $table) {
+            $table->unsignedBigInteger('nova_resource_id');
+            $table->unsignedBigInteger('user_group_id');
+            $table->json('policy');
+
+            $table->foreign('user_group_id')->references('id')->on('user_groups')->onDelete('CASCADE');
+            $table->foreign('nova_resource_id')->references('id')->on('nova_resources')->onDelete('CASCADE');
+        });
+    }
+
+    public function down()
+    {
+        Schema::dropIfExists('user_groups');
+        Schema::dropIfExists('user_user_group');
+        Schema::dropIfExists('nova_resources');
+        Schema::dropIfExists('nova_resource_actions');
+        Schema::dropIfExists('nova_resource_user_group');
+    }
+};

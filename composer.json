@@ -1,17 +1,17 @@
 {
-    "name": "vendor_slug/package_slug",
-    "description": ":package_description",
+    "name": "marshmallow/nova-user-groups",
+    "description": "A package to manage Nova User Groups in Nova",
     "keywords": [
-        ":vendor_name",
+        "marshmallow",
         "laravel",
-        "package_slug"
+        "nova-user-groups"
     ],
-    "homepage": "https://github.com/vendor_slug/package_slug",
+    "homepage": "https://github.com/marshmallow/nova-user-groups",
     "license": "MIT",
     "authors": [
         {
-            "name": ":author_name",
-            "email": "author@domain.com",
+            "name": "Stef van Esch",
+            "email": "stef@marshmallow.dev",
             "role": "Developer"
         }
     ],
@@ -30,13 +30,13 @@
     },
     "autoload": {
         "psr-4": {
-            "VendorName\\Skeleton\\": "src",
-            "VendorName\\Skeleton\\Database\\Factories\\": "database/factories"
+            "Marshmallow\\NovaUserGroups\\": "src",
+            "Marshmallow\\NovaUserGroups\\Database\\Factories\\": "database/factories"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "VendorName\\Skeleton\\Tests\\": "tests"
+            "Marshmallow\\NovaUserGroups\\Tests\\": "tests"
         }
     },
     "scripts": {
@@ -50,10 +50,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "VendorName\\Skeleton\\SkeletonServiceProvider"
+                "Marshmallow\\NovaUserGroups\\NovaUserGroupsServiceProvider"
             ],
             "aliases": {
-                "Skeleton": "VendorName\\Skeleton\\SkeletonFacade"
+                "NovaUserGroups": "Marshmallow\\NovaUserGroups\\NovaUserGroupsFacade"
             }
         }
     },
