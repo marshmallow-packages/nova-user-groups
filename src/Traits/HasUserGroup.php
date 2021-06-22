@@ -21,6 +21,7 @@ trait HasUserGroup
                         $policy = json_decode($resource->pivot->policy);
                         if (isset($policy->{$action->id})) {
                             $has_access = $policy->{$action->id};
+
                             return $has_access;
                         }
                     }

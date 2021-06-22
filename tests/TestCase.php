@@ -3,8 +3,8 @@
 namespace Marshmallow\NovaUserGroups\Tests;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Orchestra\Testbench\TestCase as Orchestra;
 use Marshmallow\NovaUserGroups\NovaUserGroupsServiceProvider;
+use Orchestra\Testbench\TestCase as Orchestra;
 
 class TestCase extends Orchestra
 {

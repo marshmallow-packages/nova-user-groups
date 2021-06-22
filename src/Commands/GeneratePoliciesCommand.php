@@ -17,7 +17,6 @@ class GeneratePoliciesCommand extends Command
         $policies = [];
         $resources = NovaUserGroupsFacade::getNovaResources();
         foreach ($resources as $resource) {
-
             $nova_resource_class = "\\App\\Nova\\{$resource}";
             $policy_namespaced = "\\App\\Policies\\{$resource}Policy";
             if (isset($nova_resource_class::$model)) {

@@ -19,14 +19,14 @@ class NovaUserGroups
     public function generateAdministratorGroup()
     {
         $group = self::$userGroupModel::where('name', 'Administrator')->first();
-        if (!$group) {
+        if (! $group) {
             $group = self::$userGroupModel::create([
-                'name' => 'Administrator'
+                'name' => 'Administrator',
             ]);
         }
 
         self::$userModel::get()->each(function ($user) use ($group) {
-            if (!method_exists($user, 'isAdmin') || $user->isAdmin()) {
+            if (! method_exists($user, 'isAdmin') || $user->isAdmin()) {
                 $group->users()->attach($user);
             }
         });
