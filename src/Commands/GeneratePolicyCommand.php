@@ -2,10 +2,8 @@
 
 namespace Marshmallow\NovaUserGroups\Commands;
 
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Console\GeneratorCommand;
-use Marshmallow\NovaUserGroups\NovaUserGroupsFacade;
+use Illuminate\Support\Str;
 
 class GeneratePolicyCommand extends GeneratorCommand
 {

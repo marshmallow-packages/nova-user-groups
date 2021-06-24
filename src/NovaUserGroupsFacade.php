@@ -3,7 +3,6 @@
 namespace Marshmallow\NovaUserGroups;
 
 use Illuminate\Support\Facades\Facade;
-use Marshmallow\NovaUserGroups\NovaUserGroups;
 
 /**
  * @see \Marshmallow\NovaUserGroups\NovaUserGroups

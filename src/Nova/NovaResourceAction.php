@@ -3,12 +3,12 @@
 namespace Marshmallow\NovaUserGroups\Nova;
 
 use App\Nova\Resource;
-use Laravel\Nova\Fields\ID;
-use Illuminate\Http\Request;
-use Laravel\Nova\Fields\Text;
 use Eminiarts\Tabs\TabsOnEdit;
-use Laravel\Nova\Fields\Boolean;
+use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\Boolean;
+use Laravel\Nova\Fields\ID;
+use Laravel\Nova\Fields\Text;
 use Marshmallow\NovaUserGroups\NovaUserGroups;
 use Marshmallow\Translatable\Facades\TranslatableTabs;
 use Marshmallow\Translatable\Traits\TranslatableFields;

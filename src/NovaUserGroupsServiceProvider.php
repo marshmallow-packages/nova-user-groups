@@ -2,12 +2,12 @@
 
 namespace Marshmallow\NovaUserGroups;
 
-use Spatie\LaravelPackageTools\Package;
-use Spatie\LaravelPackageTools\PackageServiceProvider;
+use Marshmallow\NovaUserGroups\Commands\GeneratePoliciesCommand;
 use Marshmallow\NovaUserGroups\Commands\GeneratePolicyCommand;
 use Marshmallow\NovaUserGroups\Commands\ImportResourcesCommand;
-use Marshmallow\NovaUserGroups\Commands\GeneratePoliciesCommand;
 use Marshmallow\NovaUserGroups\Commands\InstallAdminGroupCommand;
+use Spatie\LaravelPackageTools\Package;
+use Spatie\LaravelPackageTools\PackageServiceProvider;
 
 class NovaUserGroupsServiceProvider extends PackageServiceProvider
 {

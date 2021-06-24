@@ -3,7 +3,6 @@
 namespace Marshmallow\NovaUserGroups;
 
 use Illuminate\Support\Str;
-use Marshmallow\NovaUserGroups\Models\NovaResource;
 
 class NovaUserGroups
 {
@@ -22,7 +21,7 @@ class NovaUserGroups
         $group = self::$userGroupModel::where('name', 'Administrator')->first();
         if (!$group) {
             $group = self::$userGroupModel::create([
-                'name' => 'Administrator'
+                'name' => 'Administrator',
             ]);
         }
 

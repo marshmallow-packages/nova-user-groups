@@ -3,14 +3,14 @@
 namespace Marshmallow\NovaUserGroups\Nova;
 
 use App\Nova\Resource;
-use Laravel\Nova\Fields\ID;
-use Illuminate\Http\Request;
-use Laravel\Nova\Fields\Text;
 use Eminiarts\Tabs\TabsOnEdit;
-use Laravel\Nova\Fields\Boolean;
-use Laravel\Nova\Fields\HasMany;
-use Laravel\Nova\Fields\BooleanGroup;
+use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsToMany;
+use Laravel\Nova\Fields\Boolean;
+use Laravel\Nova\Fields\BooleanGroup;
+use Laravel\Nova\Fields\HasMany;
+use Laravel\Nova\Fields\ID;
+use Laravel\Nova\Fields\Text;
 use Marshmallow\NovaUserGroups\NovaUserGroups;
 use Marshmallow\Translatable\Facades\TranslatableTabs;
 use Marshmallow\Translatable\Traits\TranslatableFields;
@@ -81,7 +81,6 @@ class NovaResource extends Resource
 
                 HasMany::make(__('Actions'), 'actions', NovaUserGroups::$novaResourceAction),
                 BelongsToMany::make(__('User groups'), 'groups', NovaUserGroups::$novaUserGroup)->fields(function ($indexRequest, $novaResource) {
-
                     return [
                         BooleanGroup::make(__('Policy'), 'policy')->options(
                             $novaResource->actions->booleanGroupArray()

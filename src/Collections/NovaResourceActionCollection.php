@@ -12,6 +12,7 @@ class NovaResourceActionCollection extends Collection
         foreach ($this->items as $item) {
             $options[(string) $item->id] = $item->description;
         }
+
         return $options;
     }
 
@@ -21,6 +22,7 @@ class NovaResourceActionCollection extends Collection
         foreach ($this->items as $item) {
             $options[$item->id] = true;
         }
+
         return json_encode($options);
     }
 }
