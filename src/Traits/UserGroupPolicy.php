@@ -3,6 +3,7 @@
 namespace Marshmallow\NovaUserGroups\Traits;
 
 use Illuminate\Auth\Access\HandlesAuthorization;
+
 trait UserGroupPolicy
 {
     use HandlesAuthorization;

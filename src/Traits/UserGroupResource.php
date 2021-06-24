@@ -10,6 +10,7 @@ trait UserGroupResource
     public static function availableForNavigation(Request $request)
     {
         $resource = NovaUserGroupsFacade::getNovaResourceName(get_called_class());
+
         return $request->user()->may('showInMenu', $resource);
     }
 }
