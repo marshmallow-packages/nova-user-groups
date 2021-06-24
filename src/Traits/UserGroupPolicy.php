@@ -2,11 +2,7 @@
 
 namespace Marshmallow\NovaUserGroups\Traits;
 
-use App\Models\User;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Auth\Access\HandlesAuthorization;
-use Marshmallow\NovaUserGroups\Models\NovaResource;
-use Marshmallow\NovaUserGroups\Models\NovaResourceAction;
 
 trait UserGroupPolicy
 {
@@ -18,7 +14,7 @@ trait UserGroupPolicy
      * @param  \App\Models\User  $user
      * @return mixed
      */
-    public function viewAny(User $user)
+    public function viewAny($user)
     {
         return $user->may('viewAny', $this->getResourceName());
     }

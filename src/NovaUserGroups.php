@@ -3,6 +3,7 @@
 namespace Marshmallow\NovaUserGroups;
 
 use Illuminate\Support\Str;
+use Marshmallow\NovaUserGroups\Models\NovaResource;
 
 class NovaUserGroups
 {
@@ -27,7 +28,9 @@ class NovaUserGroups
 
         self::$userModel::get()->each(function ($user) use ($group) {
             if (!method_exists($user, 'isAdmin') || $user->isAdmin()) {
-                $group->users()->attach($user);
+                if (!$group->users->contains($user->id)) {
+                    $group->users()->attach($user);
+                }
             }
         });
     }
@@ -53,5 +56,18 @@ class NovaUserGroups
         }
 
         return $resources;
+    }
+
+    public function getNovaResourceName(string $resource_class_name)
+    {
+        $file_parts = explode("\\", $resource_class_name);
+        $resource_name = array_pop($file_parts);
+        return $resource_name;
+    }
+
+    public function getNovaResource(string $resource_class_name)
+    {
+        $resource_name = $this->getNovaResourceName($resource_class_name);
+        return self::$novaResourceModel::where('name', $resource_name)->first();
     }
 }

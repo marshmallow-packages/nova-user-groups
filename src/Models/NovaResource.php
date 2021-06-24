@@ -13,6 +13,7 @@ class NovaResource extends Model
     protected $guarded = [];
 
     public static $default_actions = [
+        'showInMenu' => 'Show this resource in the menu.',
         'viewAny' => 'Users can view any of these models.',
         'view' => 'Users can view the details of these models.',
         'create' => 'Users can create these models.',

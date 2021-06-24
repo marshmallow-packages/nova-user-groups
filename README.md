@@ -13,9 +13,6 @@ You can install the package via composer:
 
 ```bash
 composer require marshmallow/nova-user-groups
-php artisan marshmallow:resource UserGroup NovaUserGroups
-php artisan marshmallow:resource NovaResource NovaUserGroups
-php artisan marshmallow:resource NovaResourceAction NovaUserGroups
 ```
 
 You can publish and run the migrations with:
@@ -31,7 +28,13 @@ Run the install command to start using this package. When you run install, this 
 
 ```bash
 php artisan user-groups:install
+
+php artisan user-groups:policies
 ```
+
+Add the HasUserGroup trait to you user model.
+
+Add the use UserGroupResource; trait to app/nova/resource.php
 
 ## Change the models and resource
 
