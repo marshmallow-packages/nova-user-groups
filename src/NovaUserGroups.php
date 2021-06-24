@@ -19,15 +19,15 @@ class NovaUserGroups
     public function generateAdministratorGroup()
     {
         $group = self::$userGroupModel::where('name', 'Administrator')->first();
-        if (!$group) {
+        if (! $group) {
             $group = self::$userGroupModel::create([
                 'name' => 'Administrator',
             ]);
         }
 
         self::$userModel::get()->each(function ($user) use ($group) {
-            if (!method_exists($user, 'isAdmin') || $user->isAdmin()) {
-                if (!$group->users->contains($user->id)) {
+            if (! method_exists($user, 'isAdmin') || $user->isAdmin()) {
+                if (! $group->users->contains($user->id)) {
                     $group->users()->attach($user);
                 }
             }
@@ -61,12 +61,14 @@ class NovaUserGroups
     {
         $file_parts = explode("\\", $resource_class_name);
         $resource_name = array_pop($file_parts);
+
         return $resource_name;
     }
 
     public function getNovaResource(string $resource_class_name)
     {
         $resource_name = $this->getNovaResourceName($resource_class_name);
+
         return self::$novaResourceModel::where('name', $resource_name)->first();
     }
 }

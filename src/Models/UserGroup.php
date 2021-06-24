@@ -25,7 +25,7 @@ class UserGroup extends Model
     {
         $resources = NovaUserGroups::$novaResourceModel::get();
         $resources->each(function ($resource) {
-            if (!$this->resources->contains($resource->id)) {
+            if (! $this->resources->contains($resource->id)) {
                 $this->resources()->attach($resource, [
                     'policy' => $resource->actions->booleanGroupDefaultSettings(),
                 ]);
