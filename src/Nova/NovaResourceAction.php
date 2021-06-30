@@ -3,20 +3,18 @@
 namespace Marshmallow\NovaUserGroups\Nova;
 
 use App\Nova\Resource;
-use Eminiarts\Tabs\TabsOnEdit;
-use Illuminate\Http\Request;
-use Laravel\Nova\Fields\BelongsTo;
-use Laravel\Nova\Fields\Boolean;
+use Eminiarts\Tabs\Tabs;
 use Laravel\Nova\Fields\ID;
+use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Text;
+use Eminiarts\Tabs\TabsOnEdit;
+use Laravel\Nova\Fields\Boolean;
+use Laravel\Nova\Fields\BelongsTo;
 use Marshmallow\NovaUserGroups\NovaUserGroups;
-use Marshmallow\Translatable\Facades\TranslatableTabs;
-use Marshmallow\Translatable\Traits\TranslatableFields;
 
 class NovaResourceAction extends Resource
 {
     use TabsOnEdit;
-    use TranslatableFields;
 
     public static $priority = 30;
 
@@ -55,11 +53,6 @@ class NovaResourceAction extends Resource
         'name',
     ];
 
-    public function translatableFieldsEnabled()
-    {
-        return true;
-    }
-
     /**
      * Get the fields displayed by the resource.
      *
@@ -67,10 +60,10 @@ class NovaResourceAction extends Resource
      *
      * @return array
      */
-    public function translatableFields(Request $request)
+    public function fields(Request $request)
     {
         return [
-            TranslatableTabs::make($this, __('Resource action'), [
+            Tabs::make(__('Resource action'), [
                 'Main' => [
                     ID::make(__('ID')),
                     BelongsTo::make(__('Resource'), 'resource', NovaUserGroups::$novaResource)->rules(['required'])->required(),

@@ -3,6 +3,7 @@
 namespace Marshmallow\NovaUserGroups\Nova;
 
 use App\Nova\Resource;
+use Eminiarts\Tabs\Tabs;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Text;
@@ -12,13 +13,10 @@ use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\BooleanGroup;
 use Laravel\Nova\Fields\BelongsToMany;
 use Marshmallow\NovaUserGroups\NovaUserGroups;
-use Marshmallow\Translatable\Facades\TranslatableTabs;
-use Marshmallow\Translatable\Traits\TranslatableFields;
 
 class NovaResource extends Resource
 {
     use TabsOnEdit;
-    use TranslatableFields;
 
     public static $priority = 20;
 
@@ -57,11 +55,6 @@ class NovaResource extends Resource
         'name',
     ];
 
-    public function translatableFieldsEnabled()
-    {
-        return true;
-    }
-
     /**
      * Get the fields displayed by the resource.
      *
@@ -69,26 +62,26 @@ class NovaResource extends Resource
      *
      * @return array
      */
-    public function translatableFields(Request $request)
+    public function fields(Request $request)
     {
         return [
-            TranslatableTabs::make($this, __('Resources'), [
+            Tabs::make(__('Resources'), [
                 'Main' => [
                     ID::make(__('ID')),
                     Text::make(__('Name'), 'name')->sortable()->rules(['required']),
                     Boolean::make(__('Active'), 'active'),
                 ],
+                HasMany::make(__('Actions'), 'actions', NovaUserGroups::$novaResourceAction),
+                BelongsToMany::make(__('User groups'), 'groups', NovaUserGroups::$novaUserGroup)->fields(function ($indexRequest, $novaResource) {
+                    return [
+                        BooleanGroup::make(__('Policy'), 'policy')->options(
+                            $novaResource->actions->booleanGroupArray()
+                        )->resolveUsing(function ($value, $pivot, $column) {
+                            return json_decode($pivot->policy);
+                        })->hideWhenCreating(),
+                    ];
+                }),
             ])->withToolbar(),
-            HasMany::make(__('Actions'), 'actions', NovaUserGroups::$novaResourceAction),
-            BelongsToMany::make(__('User groups'), 'groups', NovaUserGroups::$novaUserGroup)->fields(function ($indexRequest, $novaResource) {
-                return [
-                    BooleanGroup::make(__('Policy'), 'policy')->options(
-                        $novaResource->actions->booleanGroupArray()
-                    )->resolveUsing(function ($value, $pivot, $column) {
-                        return json_decode($pivot->policy);
-                    })->hideWhenCreating(),
-                ];
-            }),
         ];
     }
 
