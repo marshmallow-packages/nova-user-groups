@@ -2,14 +2,17 @@
 
 namespace Marshmallow\NovaUserGroups\Models;
 
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Marshmallow\NovaUserGroups\NovaUserGroups;
+use Marshmallow\Translatable\Traits\Translatable;
 
 class NovaResource extends Model
 {
     use SoftDeletes;
+    use Translatable;
+
     protected $guarded = [];
 
     public static $default_actions = [
