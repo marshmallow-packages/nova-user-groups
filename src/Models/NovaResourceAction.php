@@ -2,12 +2,12 @@
 
 namespace Marshmallow\NovaUserGroups\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Marshmallow\NovaUserGroups\Collections\NovaResourceActionCollection;
 use Marshmallow\NovaUserGroups\NovaUserGroups;
 use Marshmallow\Translatable\Traits\Translatable;
-use Marshmallow\NovaUserGroups\Collections\NovaResourceActionCollection;
 
 class NovaResourceAction extends Model
 {
