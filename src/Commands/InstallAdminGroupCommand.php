@@ -14,6 +14,7 @@ class InstallAdminGroupCommand extends Command
 
     public function handle()
     {
+        Artisan::call('marshmallow:resource NovaTool NovaUserGroups --force');
         Artisan::call('marshmallow:resource UserGroup NovaUserGroups --force');
         Artisan::call('marshmallow:resource NovaResource NovaUserGroups --force');
         Artisan::call('marshmallow:resource NovaResourceAction NovaUserGroups --force');

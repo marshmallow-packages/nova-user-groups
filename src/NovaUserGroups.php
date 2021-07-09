@@ -7,11 +7,13 @@ use Illuminate\Support\Str;
 class NovaUserGroups
 {
     public static $userModel = \App\Models\User::class;
+    public static $novaToolModel = \Marshmallow\NovaUserGroups\Models\NovaTool::class;
     public static $userGroupModel = \Marshmallow\NovaUserGroups\Models\UserGroup::class;
     public static $novaResourceModel = \Marshmallow\NovaUserGroups\Models\NovaResource::class;
     public static $novaResourceActionModel = \Marshmallow\NovaUserGroups\Models\NovaResourceAction::class;
 
     public static $userResource = \App\Nova\User::class;
+    public static $novaTool = \Marshmallow\NovaUserGroups\Nova\NovaTool::class;
     public static $novaUserGroup = \Marshmallow\NovaUserGroups\Nova\UserGroup::class;
     public static $novaResource = \Marshmallow\NovaUserGroups\Nova\NovaResource::class;
     public static $novaResourceAction = \Marshmallow\NovaUserGroups\Nova\NovaResourceAction::class;
@@ -19,15 +21,15 @@ class NovaUserGroups
     public function generateAdministratorGroup()
     {
         $group = self::$userGroupModel::where('name', 'Administrator')->first();
-        if (! $group) {
+        if (!$group) {
             $group = self::$userGroupModel::create([
                 'name' => 'Administrator',
             ]);
         }
 
         self::$userModel::get()->each(function ($user) use ($group) {
-            if (! method_exists($user, 'isAdmin') || $user->isAdmin()) {
-                if (! $group->users->contains($user->id)) {
+            if (!method_exists($user, 'isAdmin') || $user->isAdmin()) {
+                if (!$group->users->contains($user->id)) {
                     $group->users()->attach($user);
                 }
             }

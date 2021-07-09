@@ -1,0 +1,34 @@
+<?php
+
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
+
+return new class extends Migration
+{
+    public function up()
+    {
+        Schema::create('nova_tools', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->boolean('active')->default(true);
+            $table->timestamps();
+            $table->softDeletes();
+        });
+
+        Schema::create('nova_tool_user_group', function (Blueprint $table) {
+            $table->unsignedBigInteger('nova_tool_id');
+            $table->unsignedBigInteger('user_group_id');
+            $table->boolean('active')->default(true);
+
+            $table->foreign('nova_tool_id')->references('id')->on('nova_tools')->onDelete('CASCADE');
+            $table->foreign('user_group_id')->references('id')->on('user_groups')->onDelete('CASCADE');
+        });
+    }
+
+    public function down()
+    {
+        Schema::dropIfExists('nova_tools');
+        Schema::dropIfExists('nova_tool_user_group');
+    }
+};

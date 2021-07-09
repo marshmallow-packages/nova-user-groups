@@ -74,7 +74,7 @@ class UserGroup extends Resource
                     Boolean::make(__('Active'), 'active'),
                 ],
                 BelongsToMany::make(__('Users'), 'users', NovaUserGroups::$userResource),
-                BelongsToMany::make(__('Resources'), 'resources', NovaUserGroups::$novaResource)->fields(function ($indexRequest, $test) {
+                BelongsToMany::make(__('Resources'), 'resources', NovaUserGroups::$novaResource)->fields(function () {
                     $options = [];
                     if (request()->relatedResourceId) {
                         $model = NovaUserGroups::$novaResourceModel::find(request()->relatedResourceId);
@@ -92,6 +92,11 @@ class UserGroup extends Resource
                         BooleanGroup::make(__('Policy'), 'policy')->options($options)->resolveUsing(function ($value, $pivot, $column) {
                             return json_decode($pivot->policy);
                         })->hideWhenCreating(),
+                    ];
+                }),
+                BelongsToMany::make(__('Tools'), 'tools', NovaUserGroups::$novaTool)->fields(function () {
+                    return [
+                        Boolean::make(__('Active for group'), 'active'),
                     ];
                 }),
             ])->withToolbar(),

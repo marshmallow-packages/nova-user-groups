@@ -35,4 +35,19 @@ trait HasUserGroup
 
         return false;
     }
+
+    public function maySeeTool($tool_to_check)
+    {
+        foreach ($this->groups()->active()->get() as $group) {
+            foreach ($group->tools()->active()->get() as $tool) {
+                if ($tool->name == get_class($tool_to_check)) {
+                    if ($tool->pivot->active) {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
 }

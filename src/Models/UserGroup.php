@@ -2,8 +2,8 @@
 
 namespace Marshmallow\NovaUserGroups\Models;
 
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Marshmallow\NovaUserGroups\NovaUserGroups;
 
@@ -26,7 +26,7 @@ class UserGroup extends Model
     {
         $resources = NovaUserGroups::$novaResourceModel::get();
         $resources->each(function ($resource) {
-            if (! $this->resources->contains($resource->id)) {
+            if (!$this->resources->contains($resource->id)) {
                 $this->resources()->attach($resource, [
                     'policy' => $resource->actions->booleanGroupDefaultSettings(),
                 ]);
@@ -47,5 +47,10 @@ class UserGroup extends Model
     public function resources()
     {
         return $this->belongsToMany(NovaUserGroups::$novaResourceModel)->withPivot(['policy']);
+    }
+
+    public function tools()
+    {
+        return $this->belongsToMany(NovaUserGroups::$novaToolModel)->withPivot(['active']);
     }
 }

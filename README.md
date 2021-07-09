@@ -32,9 +32,81 @@ php artisan user-groups:install
 php artisan user-groups:policies
 ```
 
-Add the HasUserGroup trait to you user model.
+### User model
 
-Add the use UserGroupResource; trait to app/nova/resource.php
+Add the `HasUserGroup` trait to you user model.
+
+```php
+namespace App\Models;
+
+use Marshmallow\NovaUserGroups\Traits\HasUserGroup;
+
+class User extends Authenticatable
+{
+    use HasUserGroup;
+
+    // ...
+}
+
+```
+
+### Nova Resource
+
+Add the `UserGroupResource` trait to your main Nova Resource.
+
+```php
+namespace App\Nova;
+
+use Laravel\Nova\Resource as NovaResource;
+use Laravel\Nova\Http\Requests\NovaRequest;
+use Marshmallow\NovaUserGroups\Traits\UserGroupResource;
+
+abstract class Resource extends NovaResource
+{
+    use UserGroupResource;
+
+    // ...
+}
+```
+
+### Nova Service Provider
+
+Add the `UserGroupNovaServiceProvider` trait to your `NovaServiceProvider`. Once you have done so, you will have a couple of new methods to make sure the authenticated user group is allowed to do stuff that is defined in the NovaServiceProvider.
+
+```php
+namespace App\Providers;
+
+// ..
+use Marshmallow\NovaUserGroups\Traits\UserGroupNovaServiceProvider;
+
+class NovaServiceProvider extends NovaApplicationServiceProvider
+{
+    use UserGroupNovaServiceProvider;
+
+    // ...
+
+    protected function cards()
+    {
+        return $this->canSeeCards([
+            // Your cards go here.
+        ]);
+    }
+
+    protected function dashboards()
+    {
+        return $this->canSeeDashboards([
+            // Your cards go here.
+        ]);
+    }
+
+    protected function tools()
+    {
+        return $this->canSeeTools([
+            // Your cards go here.
+        ]);
+    }
+}
+```
 
 ## Change the models and resource
 
