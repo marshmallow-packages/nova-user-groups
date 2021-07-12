@@ -32,6 +32,12 @@ php artisan user-groups:install
 php artisan user-groups:policies
 ```
 
+To add an super administrator group use the -s option
+
+```bash
+php artisan user-groups:install -s
+```
+
 ### User model
 
 Add the `HasUserGroup` trait to you user model.
@@ -129,6 +135,50 @@ public function boot()
     NovaUserGroups::$novaResource = \Marshmallow\NovaUserGroups\Nova\NovaResource::class;
     NovaUserGroups::$novaResourceAction = \Marshmallow\NovaUserGroups\Nova\NovaResourceAction::class;
 }
+```
+
+## Config
+
+Some methods require additional Policy access, add a group under 'groups' with the key and name.
+Add the allowed methods under 'methods' with group key and the method name.
+
+```php
+
+return [
+
+    /*
+    |--------------------------------------------------------------------------
+    | Allowed Admin Groups
+    |--------------------------------------------------------------------------
+    |
+    | This is a list of groups on which the methods will be defined.
+    |
+    */
+    'groups' => [
+        'admin' => 'Administrator',
+        'super-admin' => 'SuperAdministrator',
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Allowed Methods
+    |--------------------------------------------------------------------------
+    |
+    | This is a list of allowed methods per group
+    |
+    */
+    'methods' => [
+        'admin' => [
+            'viewNova',
+        ],
+        'super-admin' => [
+            'viewNova',
+            'viewTelescope',
+            'viewHorizon'
+        ]
+    ],
+];
+
 ```
 
 ## Testing

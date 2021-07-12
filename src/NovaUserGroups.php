@@ -18,9 +18,13 @@ class NovaUserGroups
     public static $novaResource = \Marshmallow\NovaUserGroups\Nova\NovaResource::class;
     public static $novaResourceAction = \Marshmallow\NovaUserGroups\Nova\NovaResourceAction::class;
 
-    public function generateAdministratorGroups()
+    public function generateAdministratorGroup()
     {
         $this->generateGroup('Administrator', true);
+    }
+
+    public function generateSuperAdministratorGroup()
+    {
         $this->generateGroup('SuperAdministrator', true);
     }
 

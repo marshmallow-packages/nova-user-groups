@@ -8,7 +8,8 @@ use Marshmallow\NovaUserGroups\NovaUserGroupsFacade;
 
 class InstallAdminGroupCommand extends Command
 {
-    public $signature = 'user-groups:install';
+    public $signature = 'user-groups:install
+                        {--s|super-admin : Add SuperAdmin Group} ';
 
     public $description = 'This command will generate every Nova Resource and an user group for administrators. It will also connect the existing users to this new administrator group';
 
@@ -19,6 +20,10 @@ class InstallAdminGroupCommand extends Command
         Artisan::call('marshmallow:resource NovaResource NovaUserGroups --force');
         Artisan::call('marshmallow:resource NovaResourceAction NovaUserGroups --force');
         NovaUserGroupsFacade::importResources();
-        NovaUserGroupsFacade::generateAdministratorGroups();
+        NovaUserGroupsFacade::generateAdministratorGroup();
+
+        if ($this->option('super-admin')) {
+            NovaUserGroupsFacade::generateSuperAdministratorGroup();
+        }
     }
 }
