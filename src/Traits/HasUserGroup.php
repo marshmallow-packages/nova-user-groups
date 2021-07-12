@@ -14,25 +14,11 @@ trait HasUserGroup
         return $this->belongsToMany(NovaUserGroups::$userGroupModel);
     }
 
-    public function checkConfigMethod(UserGroup $group, string $method): bool
-    {
-        $config_group = array_keys(config('nova-user-groups.groups'), $group->name, true);
-        if ($config_group = Arr::first($config_group)) {
-            $configMethod = "nova-user-groups.methods.{$config_group}";
-            if (in_array($method, config($configMethod))) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-
     public function may($method, $resource_name, $arguments = null)
     {
         foreach ($this->groups()->active()->get() as $group) {
 
-            if ($this->checkMethod($group, $method)) {
+            if ($this->checkConfigMethod($group, $method)) {
                 return true;
             }
 
@@ -53,6 +39,19 @@ trait HasUserGroup
 
         return false;
     }
+
+    public function checkConfigMethod(UserGroup $group, string $method): bool
+    {
+        $config_group = array_keys(config('nova-user-groups.groups'), $group->name, true);
+        if ($config_group = Arr::first($config_group)) {
+            $configMethod = "nova-user-groups.methods.{$config_group}";
+            if (in_array($method, config($configMethod))) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     public function maySeeTool($tool_to_check)
     {

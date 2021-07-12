@@ -18,22 +18,35 @@ class NovaUserGroups
     public static $novaResource = \Marshmallow\NovaUserGroups\Nova\NovaResource::class;
     public static $novaResourceAction = \Marshmallow\NovaUserGroups\Nova\NovaResourceAction::class;
 
-    public function generateAdministratorGroup()
+    public function generateAdministratorGroups()
     {
-        $group = self::$userGroupModel::where('name', 'Administrator')->first();
+        $this->generateGroup('Administrator', true);
+        $this->generateGroup('SuperAdministrator', true);
+    }
+
+    public function generateGroup($groupName, $isAdmin = false)
+    {
+        $group = self::$userGroupModel::where('name', $groupName)->first();
         if (!$group) {
             $group = self::$userGroupModel::create([
-                'name' => 'Administrator',
+                'name' => $groupName,
             ]);
         }
 
-        self::$userModel::get()->each(function ($user) use ($group) {
-            if (!method_exists($user, 'isAdmin') || $user->isAdmin()) {
-                if (!$group->users->contains($user->id)) {
-                    $group->users()->attach($user);
+        if ($isAdmin) {
+            self::$userModel::get()->each(function ($user) use ($group) {
+                if (method_exists($user, 'isAdmin') && $user->isAdmin()) {
+                    if (!$group->users->contains($user->id)) {
+                        $group->users()->attach($user);
+                    }
                 }
-            }
-        });
+                if (method_exists($user, 'hasAccessToBackoffice') && $user->hasAccessToBackoffice()) {
+                    if (!$group->users->contains($user->id)) {
+                        $group->users()->attach($user);
+                    }
+                }
+            });
+        }
     }
 
     public function importResources()

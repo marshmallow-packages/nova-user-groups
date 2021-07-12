@@ -4,23 +4,31 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Allowed Methods
+    | Allowed Admin Groups
     |--------------------------------------------------------------------------
     |
-    | This is a list of methods the toolbar will not run on.
+    | This is a list of groups on which the methods will be defined.
     |
     */
     'groups' => [
         'admin' => 'Administrator',
         'super-admin' => 'SuperAdministrator',
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Allowed Methods
+    |--------------------------------------------------------------------------
+    |
+    | This is a list of allowed methods per group
+    |
+    */
     'methods' => [
         'admin' => [
             'viewNova',
-            'viewTelescope',
-            'viewHorizon'
         ],
         'super-admin' => [
+            'viewNova',
             'viewTelescope',
             'viewHorizon'
         ]

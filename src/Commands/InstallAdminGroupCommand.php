@@ -19,6 +19,6 @@ class InstallAdminGroupCommand extends Command
         Artisan::call('marshmallow:resource NovaResource NovaUserGroups --force');
         Artisan::call('marshmallow:resource NovaResourceAction NovaUserGroups --force');
         NovaUserGroupsFacade::importResources();
-        NovaUserGroupsFacade::generateAdministratorGroup();
+        NovaUserGroupsFacade::generateAdministratorGroups();
     }
 }
