@@ -142,7 +142,7 @@ public function boot()
 Some methods require additional Policy access, add a group under 'groups' with the key and name.
 Add the allowed methods under 'methods' with group key and the method name.
 
-```php
+````php
 
 return [
 
@@ -179,7 +179,18 @@ return [
     ],
 ];
 
-```
+## Commands
+
+```bash
+php artisan user-groups:policies
+php artisan user-groups:policy {name}
+php artisan user-groups:import-resources
+
+php artisan marshmallow:resource NovaTool NovaUserGroups --force
+php artisan marshmallow:resource UserGroup NovaUserGroups --force
+php artisan marshmallow:resource NovaResource NovaUserGroups --force
+php artisan marshmallow:resource NovaResourceAction NovaUserGroups --force
+````
 
 ## Testing
 

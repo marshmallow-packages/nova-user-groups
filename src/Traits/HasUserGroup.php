@@ -16,16 +16,30 @@ trait HasUserGroup
 
     public function may($method, $resource_name, $arguments = null)
     {
-        foreach ($this->groups()->active()->get() as $group) {
+        if ($method == 'viewNova') {
+            return true;
+        }
+
+        foreach ($this->groups as $group) {
+
+            if (!$group->active) {
+                continue;
+            }
 
             if ($this->checkConfigMethod($group, $method)) {
                 return true;
             }
 
-            foreach ($group->resources()->active()->get() as $resource) {
+            foreach ($group->resources as $resource) {
+
+                if (!$resource->active) {
+                    continue;
+                }
+
                 if ($resource->name == $resource_name) {
-                    $action = $resource->actions()->active()->where('name', $method)->first();
-                    if ($action) {
+                    $action = $resource->actions->where('name', $method)->first();
+
+                    if ($action && $action->active) {
                         $policy = json_decode($resource->pivot->policy);
                         if (isset($policy->{$action->id})) {
                             $has_access = $policy->{$action->id};
@@ -55,8 +69,18 @@ trait HasUserGroup
 
     public function maySeeTool($tool_to_check)
     {
-        foreach ($this->groups()->active()->get() as $group) {
-            foreach ($group->tools()->active()->get() as $tool) {
+        foreach ($this->groups as $group) {
+
+            if (!$group->active) {
+                continue;
+            }
+
+            foreach ($group->tools as $tool) {
+
+                if (!$tool->active) {
+                    continue;
+                }
+
                 if ($tool->name == get_class($tool_to_check)) {
                     if ($tool->pivot->active) {
                         return true;
