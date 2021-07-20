@@ -2,8 +2,8 @@
 
 namespace Marshmallow\NovaUserGroups\Models;
 
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Marshmallow\NovaUserGroups\NovaUserGroups;
 
@@ -12,6 +12,10 @@ class NovaResource extends Model
     use SoftDeletes;
 
     protected $guarded = [];
+
+    protected $with = [
+        'actions'
+    ];
 
     public static $default_actions = [
         'showInMenu' => 'Show this resource in the menu.',
