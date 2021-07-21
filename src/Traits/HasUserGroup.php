@@ -16,10 +16,6 @@ trait HasUserGroup
 
     public function may($method, $resource_name, $arguments = null)
     {
-        if ($method == 'viewNova') {
-            return true;
-        }
-
         foreach ($this->groups as $group) {
 
             if (!$group->active) {
