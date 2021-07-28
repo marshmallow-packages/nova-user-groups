@@ -55,8 +55,11 @@ trait HasUserGroup
         $config_group = array_keys(config('nova-user-groups.groups'), $group->name, true);
         if ($config_group = Arr::first($config_group)) {
             $configMethod = "nova-user-groups.methods.{$config_group}";
-            if (in_array($method, config($configMethod))) {
-                return true;
+            $config = config($configMethod);
+            if (is_array($config)) {
+                if (in_array($method, config($configMethod))) {
+                    return true;
+                }
             }
         }
         return false;
