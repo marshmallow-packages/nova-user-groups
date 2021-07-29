@@ -3,15 +3,36 @@
 namespace Marshmallow\NovaUserGroups\Traits;
 
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Marshmallow\NovaUserGroups\NovaUserGroups;
 use Marshmallow\NovaUserGroups\Models\UserGroup;
 
 trait HasUserGroup
 {
-
     public function groups()
     {
         return $this->belongsToMany(NovaUserGroups::$userGroupModel);
+    }
+
+    public function viewNova()
+    {
+        return $this->allowedToRunMethod('viewNova');
+    }
+
+    public function viewTelescope()
+    {
+        return $this->allowedToRunMethod('viewTelescope');
+    }
+
+    public function viewHorizon()
+    {
+        return $this->allowedToRunMethod('viewHorizon');
+    }
+
+    public function allowedToRunMethod($method)
+    {
+        $methods = $this->getUserGroupMethods();
+        return in_array($method, $methods);
     }
 
     public function may($method, $resource_name, $arguments = null)
@@ -55,11 +76,8 @@ trait HasUserGroup
         $config_group = array_keys(config('nova-user-groups.groups'), $group->name, true);
         if ($config_group = Arr::first($config_group)) {
             $configMethod = "nova-user-groups.methods.{$config_group}";
-            $config = config($configMethod);
-            if (is_array($config)) {
-                if (in_array($method, config($configMethod))) {
-                    return true;
-                }
+            if (in_array($method, config($configMethod))) {
+                return true;
             }
         }
         return false;
@@ -89,5 +107,25 @@ trait HasUserGroup
         }
 
         return false;
+    }
+
+    protected function getUserGroupMethods()
+    {
+        $methods = [];
+        foreach ($this->groups as $group) {
+            foreach ($group->methods as $method => $allowed) {
+                if (!$allowed) {
+                    continue;
+                }
+
+                if (in_array($method, $methods)) {
+                    continue;
+                }
+
+                $methods[] = $method;
+            }
+        }
+
+        return $methods;
     }
 }

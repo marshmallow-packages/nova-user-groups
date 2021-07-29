@@ -33,4 +33,18 @@ return [
             'viewHorizon'
         ]
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | User model methods
+    |--------------------------------------------------------------------------
+    |
+    | Add simple methods to a group to check if they are allowed to do something.
+    |
+    */
+    'user_methods' => [
+        'viewNova' => 'View the backoffice',
+        'viewTelescope' => 'View logs',
+        'viewHorizon' => 'View queues',
+    ],
 ];

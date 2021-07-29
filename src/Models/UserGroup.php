@@ -13,6 +13,10 @@ class UserGroup extends Model
 
     protected $guarded = [];
 
+    protected $casts = [
+        'methods' => 'array',
+    ];
+
     protected static function boot()
     {
         parent::boot();

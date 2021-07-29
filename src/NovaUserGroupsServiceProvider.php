@@ -18,6 +18,7 @@ class NovaUserGroupsServiceProvider extends PackageServiceProvider
             ->hasConfigFile()
             ->hasMigration('create_user_groups_table')
             ->hasMigration('create_nova_tools_table')
+            ->hasMigration('add_methods_to_user_groups_table')
             ->hasCommand(GeneratePolicyCommand::class)
             ->hasCommand(ImportResourcesCommand::class)
             ->hasCommand(GeneratePoliciesCommand::class)

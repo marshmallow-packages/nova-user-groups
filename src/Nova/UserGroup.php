@@ -71,6 +71,9 @@ class UserGroup extends Resource
                 'Main' => [
                     ID::make(__('ID')),
                     Text::make(__('Name'), 'name')->sortable()->rules(['required']),
+                    BooleanGroup::make(__('Methods'), 'methods')->options(
+                        config('nova-user-groups.user_methods')
+                    ),
                     Boolean::make(__('Active'), 'active'),
                 ],
                 BelongsToMany::make(__('Users'), 'users', NovaUserGroups::$userResource),
