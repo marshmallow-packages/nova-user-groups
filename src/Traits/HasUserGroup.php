@@ -3,12 +3,28 @@
 namespace Marshmallow\NovaUserGroups\Traits;
 
 use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
+use Marshmallow\HelperFunctions\Facades\URL;
 use Marshmallow\NovaUserGroups\NovaUserGroups;
 use Marshmallow\NovaUserGroups\Models\UserGroup;
 
 trait HasUserGroup
 {
+    public static function bootHasUserGroup()
+    {
+        if (URL::isNova(request())) {
+            static::created(function ($user) {
+                $default_groups = config('nova-user-groups.default_groups');
+                if (is_array($default_groups)) {
+                    foreach ($default_groups as $group_id) {
+                        if ($group = NovaUserGroups::$userGroupModel::find($group_id)) {
+                            $user->groups()->attach($group);
+                        }
+                    }
+                }
+            });
+        }
+    }
+
     public function groups()
     {
         return $this->belongsToMany(NovaUserGroups::$userGroupModel);

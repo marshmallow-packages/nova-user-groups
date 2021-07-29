@@ -17,6 +17,20 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Default groups
+    |--------------------------------------------------------------------------
+    |
+    | Add an array with the id's of the user groups you want to be connected to
+    | newly added user in Nova. Please not that they will only be connected if
+    | the user is created in Nova. The array could look like the example below:
+    |
+    | 'default_groups' => [1,5,20],
+    |
+    */
+    'default_groups' => null,
+
+    /*
+    |--------------------------------------------------------------------------
     | Allowed Methods
     |--------------------------------------------------------------------------
     |
