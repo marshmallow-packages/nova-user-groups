@@ -53,6 +53,10 @@ trait HasUserGroup
 
     public function may($method, $resource_name, $arguments = null)
     {
+        if (method_exists($this, $method)) {
+            return $this->{$method}();
+        }
+
         foreach ($this->groups as $group) {
 
             if (!$group->active) {
