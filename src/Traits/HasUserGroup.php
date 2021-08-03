@@ -30,17 +30,17 @@ trait HasUserGroup
         return $this->belongsToMany(NovaUserGroups::$userGroupModel);
     }
 
-    public function viewNova()
+    public function mayViewNova()
     {
         return $this->allowedToRunMethod('viewNova');
     }
 
-    public function viewTelescope()
+    public function mayViewTelescope()
     {
         return $this->allowedToRunMethod('viewTelescope');
     }
 
-    public function viewHorizon()
+    public function mayViewHorizon()
     {
         return $this->allowedToRunMethod('viewHorizon');
     }
@@ -53,8 +53,11 @@ trait HasUserGroup
 
     public function may($method, $resource_name, $arguments = null)
     {
-        if (method_exists($this, $method)) {
-            return $this->{$method}();
+        $custom_method = ucfirst($method);
+        $custom_method = "may{$custom_method}";
+
+        if (method_exists($this, $custom_method)) {
+            return $this->{$custom_method}();
         }
 
         foreach ($this->groups as $group) {

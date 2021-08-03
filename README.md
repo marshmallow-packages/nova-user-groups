@@ -86,7 +86,7 @@ In your config, add the method that you are going to add.
 return [
     'user_methods' => [
         // ...
-        'canImpersonate' => 'Is allowed to impersonate users',
+        'impersonate' => 'Is allowed to impersonate users',
     ],
 ];
 ```
@@ -100,15 +100,18 @@ namespace App\Models;
 
 class User extends Authenticatable
 {
-    // ...
-    public function canImpersonate()
+    /**
+     * Please not that the methods must start with `may` and
+     * then start with a capital letter.
+     */
+    public function mayImpersonate()
     {
-        return $this->allowedToRunMethod('canImpersonate');
+        return $this->allowedToRunMethod('impersonate');
     }
 }
 ```
 
-Once this is all set up, go to Nova and edit your user group. In the methods section, you will now see you new `canImpersonate` method. Check this to activate this method for that user group.
+Once this is all set up, go to Nova and edit your user group. In the methods section, you will now see you new `impersonate` method. Check this to activate this method for that user group.
 
 ### Nova Service Provider
 
