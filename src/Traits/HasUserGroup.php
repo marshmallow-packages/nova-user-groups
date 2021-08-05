@@ -136,6 +136,11 @@ trait HasUserGroup
     {
         $methods = [];
         foreach ($this->groups as $group) {
+
+            if (!$group->methods) {
+                continue;
+            }
+
             foreach ($group->methods as $method => $allowed) {
                 if (!$allowed) {
                     continue;
