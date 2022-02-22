@@ -3,21 +3,61 @@
 namespace Marshmallow\NovaUserGroups\Traits;
 
 use Illuminate\Support\Arr;
+use Marshmallow\HelperFunctions\Facades\URL;
 use Marshmallow\NovaUserGroups\NovaUserGroups;
 use Marshmallow\NovaUserGroups\Models\UserGroup;
 
 trait HasUserGroup
 {
+    public static function bootHasUserGroup()
+    {
+        if (URL::isNova(request())) {
+            static::created(function ($user) {
+                $default_groups = config('nova-user-groups.default_groups');
+                if (is_array($default_groups)) {
+                    foreach ($default_groups as $group_id) {
+                        if ($group = NovaUserGroups::$userGroupModel::find($group_id)) {
+                            $user->groups()->attach($group);
+                        }
+                    }
+                }
+            });
+        }
+    }
 
     public function groups()
     {
         return $this->belongsToMany(NovaUserGroups::$userGroupModel);
     }
 
+    public function mayViewNova()
+    {
+        return $this->allowedToRunMethod('viewNova');
+    }
+
+    public function mayViewTelescope()
+    {
+        return $this->allowedToRunMethod('viewTelescope');
+    }
+
+    public function mayViewHorizon()
+    {
+        return $this->allowedToRunMethod('viewHorizon');
+    }
+
+    public function allowedToRunMethod($method)
+    {
+        $methods = $this->getUserGroupMethods();
+        return in_array($method, $methods);
+    }
+
     public function may($method, $resource_name, $arguments = null)
     {
-        if ($method == 'viewNova') {
-            return true;
+        $custom_method = ucfirst($method);
+        $custom_method = "may{$custom_method}";
+
+        if (method_exists($this, $custom_method)) {
+            return $this->{$custom_method}();
         }
 
         foreach ($this->groups as $group) {
@@ -90,5 +130,30 @@ trait HasUserGroup
         }
 
         return false;
+    }
+
+    protected function getUserGroupMethods()
+    {
+        $methods = [];
+        foreach ($this->groups as $group) {
+
+            if (!$group->methods) {
+                continue;
+            }
+
+            foreach ($group->methods as $method => $allowed) {
+                if (!$allowed) {
+                    continue;
+                }
+
+                if (in_array($method, $methods)) {
+                    continue;
+                }
+
+                $methods[] = $method;
+            }
+        }
+
+        return $methods;
     }
 }

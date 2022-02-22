@@ -75,6 +75,44 @@ abstract class Resource extends NovaResource
 }
 ```
 
+### User methods
+
+You can add methods to the user model and manage if there allowed to run these methods in Nova. Out of the box we will add three methods to the User model. These are `viewNova()`, `viewTelescope()` and `viewHorizon()`. If you wish to add a new methods to this, you need to follow the following steps.
+
+In your config, add the method that you are going to add.
+
+```php
+// config/nova-user-groups.php
+return [
+    'user_methods' => [
+        // ...
+        'impersonate' => 'Is allowed to impersonate users',
+    ],
+];
+```
+
+Next you will need to add the methods to your user model. And call the `allowedToRunMethod` method.
+
+```php
+// app/models/user.php
+
+namespace App\Models;
+
+class User extends Authenticatable
+{
+    /**
+     * Please not that the methods must start with `may` and
+     * then start with a capital letter.
+     */
+    public function mayImpersonate()
+    {
+        return $this->allowedToRunMethod('impersonate');
+    }
+}
+```
+
+Once this is all set up, go to Nova and edit your user group. In the methods section, you will now see you new `impersonate` method. Check this to activate this method for that user group.
+
 ### Nova Service Provider
 
 Add the `UserGroupNovaServiceProvider` trait to your `NovaServiceProvider`. Once you have done so, you will have a couple of new methods to make sure the authenticated user group is allowed to do stuff that is defined in the NovaServiceProvider.
