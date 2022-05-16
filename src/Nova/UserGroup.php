@@ -4,10 +4,10 @@ namespace Marshmallow\NovaUserGroups\Nova;
 
 use App\Nova\Resource;
 use Eminiarts\Tabs\Tabs;
+use Eminiarts\Tabs\Traits\HasTabs;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Text;
-use Eminiarts\Tabs\TabsOnEdit;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\BooleanGroup;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -17,7 +17,7 @@ use Marshmallow\NovaUserGroups\Nova\Actions\AttachAllMissingResources;
 
 class UserGroup extends Resource
 {
-    use TabsOnEdit;
+    use HasTabs;
 
     public static $group = 'User groups';
 

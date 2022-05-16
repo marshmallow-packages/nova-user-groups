@@ -7,7 +7,7 @@ use Eminiarts\Tabs\Tabs;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Text;
-use Eminiarts\Tabs\TabsOnEdit;
+use Eminiarts\Tabs\Traits\HasTabs;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\BelongsTo;
@@ -15,7 +15,7 @@ use Marshmallow\NovaUserGroups\NovaUserGroups;
 
 class NovaResourceAction extends Resource
 {
-    use TabsOnEdit;
+    use HasTabs;
 
     public static $priority = 30;
 
