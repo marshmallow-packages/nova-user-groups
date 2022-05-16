@@ -6,6 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Collection;
 use Laravel\Nova\Actions\Action;
+use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Fields\ActionFields;
 
 class AttachAllMissingResources extends Action
@@ -25,15 +26,5 @@ class AttachAllMissingResources extends Action
         $models->each(function ($user_group) {
             $user_group->attachAllMissingResources();
         });
-    }
-
-    /**
-     * Get the fields available on the action.
-     *
-     * @return array
-     */
-    public function fields()
-    {
-        return [];
     }
 }

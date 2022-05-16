@@ -10,6 +10,7 @@ use Laravel\Nova\Fields\Text;
 use Eminiarts\Tabs\TabsOnEdit;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\BooleanGroup;
+use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Fields\BelongsToMany;
 use Marshmallow\NovaUserGroups\NovaUserGroups;
 use Marshmallow\NovaUserGroups\Nova\Actions\AttachAllMissingResources;
@@ -64,7 +65,7 @@ class UserGroup extends Resource
      *
      * @return array
      */
-    public function fields(Request $request)
+    public function fields(NovaRequest $request)
     {
         return [
             Tabs::make(__('User groups'), [
@@ -106,42 +107,13 @@ class UserGroup extends Resource
         ];
     }
 
-    /**
-     * Get the cards available for the request.
-     *
-     * @return array
-     */
-    public function cards(Request $request)
-    {
-        return [];
-    }
-
-    /**
-     * Get the filters available for the resource.
-     *
-     * @return array
-     */
-    public function filters(Request $request)
-    {
-        return [];
-    }
-
-    /**
-     * Get the lenses available for the resource.
-     *
-     * @return array
-     */
-    public function lenses(Request $request)
-    {
-        return [];
-    }
 
     /**
      * Get the actions available for the resource.
      *
      * @return array
      */
-    public function actions(Request $request)
+    public function actions(NovaRequest $request)
     {
         return [
             new AttachAllMissingResources,
