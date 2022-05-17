@@ -7,14 +7,15 @@ use Eminiarts\Tabs\Tabs;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Text;
-use Eminiarts\Tabs\TabsOnEdit;
+use Eminiarts\Tabs\Traits\HasTabs;
+use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\BelongsTo;
 use Marshmallow\NovaUserGroups\NovaUserGroups;
 
 class NovaResourceAction extends Resource
 {
-    use TabsOnEdit;
+    use HasTabs;
 
     public static $priority = 30;
 
@@ -60,7 +61,7 @@ class NovaResourceAction extends Resource
      *
      * @return array
      */
-    public function fields(Request $request)
+    public function fields(NovaRequest $request)
     {
         return [
             Tabs::make(__('Resource action'), [
@@ -73,45 +74,5 @@ class NovaResourceAction extends Resource
                 ],
             ])->withToolbar(),
         ];
-    }
-
-    /**
-     * Get the cards available for the request.
-     *
-     * @return array
-     */
-    public function cards(Request $request)
-    {
-        return [];
-    }
-
-    /**
-     * Get the filters available for the resource.
-     *
-     * @return array
-     */
-    public function filters(Request $request)
-    {
-        return [];
-    }
-
-    /**
-     * Get the lenses available for the resource.
-     *
-     * @return array
-     */
-    public function lenses(Request $request)
-    {
-        return [];
-    }
-
-    /**
-     * Get the actions available for the resource.
-     *
-     * @return array
-     */
-    public function actions(Request $request)
-    {
-        return [];
     }
 }
